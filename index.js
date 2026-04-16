@@ -10,17 +10,17 @@ app.use(bodyParser.json());
 
 const SECRET = "fingerprint";
 
-// 🔹 Get all books
+// Get all books
 app.get('/', (req, res) => {
     res.json({ books });
 });
 
-// 🔹 Get by ISBN
+// Get by ISBN
 app.get('/isbn/:isbn', (req, res) => {
     res.json(books[req.params.isbn]);
 });
 
-// 🔹 Get by Author
+// Get by Author
 app.get('/author/:author', (req, res) => {
     const result = Object.values(books).filter(
         book => book.author.toLowerCase() === req.params.author.toLowerCase()
@@ -28,7 +28,7 @@ app.get('/author/:author', (req, res) => {
     res.json(result);
 });
 
-// 🔹 Get by Title
+// Get by Title
 app.get('/title/:title', (req, res) => {
     const result = Object.values(books).filter(
         book => book.title.toLowerCase() === req.params.title.toLowerCase()
@@ -36,12 +36,12 @@ app.get('/title/:title', (req, res) => {
     res.json(result);
 });
 
-// 🔹 Get reviews
+// Get reviews
 app.get('/review/:isbn', (req, res) => {
     res.json(books[req.params.isbn].reviews);
 });
 
-// 🔹 Register
+// Register
 app.post('/register', (req, res) => {
     const { username, password } = req.body;
 
@@ -50,22 +50,21 @@ app.post('/register', (req, res) => {
     }
 
     users.push({ username, password });
-    res.json({ message: "User registered successfully" });
+    res.json({ message: "User successfully registered. Now you can login" });
 });
 
-// 🔹 Login
+// Login
 app.post('/customer/login', (req, res) => {
     const { username, password } = req.body;
 
     if (authenticatedUser(username, password)) {
-        const token = jwt.sign({ username }, SECRET, { expiresIn: '1h' });
-        return res.json({ message: "Login successful", token });
+        return res.json({ message: "Login successful" });
     }
 
     res.status(401).json({ message: "Invalid credentials" });
 });
 
-// 🔹 Add/Modify review
+// Add/Modify review
 app.put('/customer/auth/review/:isbn', (req, res) => {
     const { username, review } = req.body;
 
@@ -77,13 +76,13 @@ app.put('/customer/auth/review/:isbn', (req, res) => {
     });
 });
 
-// 🔹 Delete review
+// Delete review
 app.delete('/customer/auth/review/:isbn', (req, res) => {
     const { username } = req.body;
 
     delete books[req.params.isbn].reviews[username];
 
-    res.json({ message: "Review deleted" });
+    res.json({ message: "Review successfully deleted" });
 });
 
 app.listen(5000, () => {

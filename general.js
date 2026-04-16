@@ -2,26 +2,42 @@ const axios = require('axios');
 
 // Get all books
 async function getAllBooks() {
-    const res = await axios.get('http://localhost:5000/');
-    return res.data;
+    try {
+        const res = await axios.get('http://localhost:5000/');
+        return res.data;
+    } catch (error) {
+        return { error: "Error fetching all books" };
+    }
 }
 
 // Get by ISBN
 async function getByISBN(isbn) {
-    const res = await axios.get(`http://localhost:5000/isbn/${isbn}`);
-    return res.data;
+    try {
+        const res = await axios.get(`http://localhost:5000/isbn/${isbn}`);
+        return res.data;
+    } catch (error) {
+        return { error: "Invalid ISBN" };
+    }
 }
 
 // Get by Author
 async function getByAuthor(author) {
-    const res = await axios.get(`http://localhost:5000/author/${author}`);
-    return res.data;
+    try {
+        const res = await axios.get(`http://localhost:5000/author/${author}`);
+        return res.data;
+    } catch (error) {
+        return { error: "Author not found" };
+    }
 }
 
 // Get by Title
 async function getByTitle(title) {
-    const res = await axios.get(`http://localhost:5000/title/${title}`);
-    return res.data;
+    try {
+        const res = await axios.get(`http://localhost:5000/title/${title}`);
+        return res.data;
+    } catch (error) {
+        return { error: "Title not found" };
+    }
 }
 
 module.exports = {
